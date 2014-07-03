@@ -1,10 +1,13 @@
 #! /usr/bin/env python
 
+#----------------------------------------
+# Tic-tac-toe terminal based game
+# @autor: kyan
+# @version: 1.0.0
+#----------------------------------------
+
 class Tictactoe:
-    """ Tic-tac-toe terminal based game
-    version 1.0.0
-    autor : kyan
-    """
+    
     def __init__(self):
         """ Initialize the instance variables
 
