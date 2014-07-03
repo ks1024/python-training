@@ -1,31 +1,43 @@
 #! /usr/bin/env python
 
 class Tictactoe:
-
-    board = []
-    move_count = None
-    marks = {'Foo':'X', 'Bar':'O'}
-
+    """ Tic-tac-toe terminal based game
+    version 1.0.0
+    autor : kyan
+    """
     def __init__(self):
-        # initialize the game board with numbers 1-9
-        self.board = list(range(1, 10))
-        self.move_count = 0
+        """ Initialize the instance variables
+
+        """
+        self.board = list(range(1, 10))  # Set the game board state with numbers from 1 to 9
+        self.move_count = 0  # Set move count to zero
+        self.players = {'Foo': 'X', 'Bar': 'O'}  # Set a dict for two players with name and mark symbol 
 
     def print_board(self):
+        """ Print the game board
+
+        1 | 2 | 3    1 | 2 | 3
+        4 | 5 | 6 => 4 | X | 6
+        7 | 8 | 9    7 | 8 | 9
+
+        """
         b = self.board
         for i, item in enumerate(b):
-            if i == 2 or i == 5 or i == 8:
+            if i == 2 or i == 5 or i == 8:  # If the right edge char, print with newline
                 print item
             else:
                 print item, "|",
 
     def ask_input(self, name):
+        """ Ask a certain player to input a square number
+
+        """
         while True:
-            i = raw_input("It is " + name + "'s turn. Mark a squre with '" + self.marks[name] + "' : ")
+            i = raw_input("It is " + name + "'s turn. Mark a squre with '" + self.players[name] + "' : ")
             try:
                 val = int(i)
             except ValueError:
-                print "That's not an int"
+                print "That's not an int. Input a square number 1-9"
                 continue
             else:
                 if val < 1 or val > 9:
@@ -37,65 +49,73 @@ class Tictactoe:
                 else:
                     return val
 
-    def is_gameover(self, x, y, t):
-        self.move_count+=1
-        gameover = False
+    def check_game_state(self, x, y):
+        """ Check if the game is over
+
+        """
+        self.move_count += 1  
         # convert board list to 3*3 matrix
         m = [self.board[0:3], self.board[3:6], self.board[6:9]]
+        p = self.current_player
         # check col
         for i in range(3):
-            if not m[x][i] == self.marks[t]:
+            if not m[x][i] == self.players[p]:
                 break
             if i == 2:
-                gameover = True
-                print "WIN for " + t
-
+                return "win"
         # check row
         for i in range(3):
-            if not m[i][y] == self.marks[t]:
+            if not m[i][y] == self.players[p]:
                 break
             if i == 2:
-                gameover = True
-                print "WIN for " + t
-
+                return "win"
         # check diag and anti diag
         if x == y:
             for i in range(3):
-                if not m[i][i] == self.marks[t]:
+                if not m[i][i] == self.players[p]:
                     break
                 if i == 2:
-                    gameover = True
-                    print "WIN for " + t
+                    return "win" 
             for i in range(3):
-                if not m[i][2-i] == self.marks[t]:
+                if not m[i][2-i] == self.players[p]:
                     break
                 if i == 2:
-                    gameover = True
-                    print "WIN for " + t
-
+                    return "win"
         # check draw
-        if self.move_count == 8:
-            print "Draw"
-            gameover = True
-
-        return gameover
+        if self.move_count == 9:
+            return "draw"
+        
+        return "go"
     
-    def start_game(self, turn):
+    def start_game(self, player):
+        """ start game
+
+        """
+        self.current_player = player
         while True:
-            self.print_board()
-            square = self.ask_input(turn)
-            x = (square - 1) / 3
-            y = (square - 1) % 3
-            self.board[square-1] = self.marks[turn]
-            if not self.is_gameover(x, y, turn):
-                if turn == 'Foo':
-                    turn = 'Bar'
-                else:
-                    turn = 'Foo'
-            else:
+            self.print_board()  # Print the game board
+            square = self.ask_input(self.current_player)  # Ask the current player to pick a square
+            x = (square - 1) / 3  # Get square's x position
+            y = (square - 1) % 3  # Get square's y position
+            self.board[square-1] = self.players[self.current_player]  # Mark the square with player's mark symbol
+            state = self.check_game_state(x, y)  # Get the game state
+            if "win" == state:
+                self.print_board()  # Print the final board
+                print "Game over. Win for " + self.current_player
                 break
-                
+            elif "draw" == state:
+                self.print_board()  # Print the final board
+                print "Game over. Draw for two players"
+                break
+            else:
+                for key in self.players:
+                    if self.current_player == key:
+                        pass
+                    else:
+                        self.current_player = key
+                        break
 
 if __name__ == "__main__":
     tictactoe = Tictactoe()
     tictactoe.start_game('Foo')
+
