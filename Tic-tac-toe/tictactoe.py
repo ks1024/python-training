@@ -6,6 +6,8 @@
 # @version: 1.0.0
 #----------------------------------------
 
+import os
+
 class Tictactoe:
     
     def __init__(self):
@@ -94,6 +96,9 @@ class Tictactoe:
         """ start game
 
         """
+        print "##########################"
+        print "##      Tic-tac-toe      #"
+        print "##########################"
         self.current_player = player
         while True:
             self.print_board()  # Print the game board
@@ -119,6 +124,7 @@ class Tictactoe:
                         break
 
 if __name__ == "__main__":
+    os.system('cls' if os.name == 'nt' else 'clear')  # Clear console before game
     tictactoe = Tictactoe()
     tictactoe.start_game('Foo')
 
