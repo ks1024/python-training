@@ -1,5 +1,9 @@
-# Todo list
+# Python program training list
 
-* Tic-tac-toe game
+- [ ] Octocat ascii graph 
+- [ ] Hangman terminal based game
+- [ ] Tic-tac-toe terminal based game
+- [ ] Tic-tac-toe game with AI
+- [ ] Animated banner program
 
-* Hangman game
+
