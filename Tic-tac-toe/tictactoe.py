@@ -7,6 +7,8 @@
 #----------------------------------------
 
 import os
+from colorama import init, Fore
+init(autoreset=True)
 
 class Tictactoe:
     
@@ -29,9 +31,19 @@ class Tictactoe:
         b = self.board
         for i, item in enumerate(b):
             if i == 2 or i == 5 or i == 8:  # If the right edge char, print with newline
-                print item
+                if item == 'X':
+                    print(Fore.RED + item)
+                elif item == 'O':
+                    print(Fore.GREEN + item)
+                else:
+                    print item
             else:
-                print item, "|",
+                if item == 'X':
+                    print(Fore.RED + item), "|",
+                elif item == 'O':
+                    print(Fore.GREEN + item), "|",
+                else:
+                    print item, "|",
 
     def ask_input(self, name):
         """ Ask a certain player to input a square number
