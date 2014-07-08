@@ -1,17 +1,23 @@
 #! /usr/bin/env python
 
-#----------------------------------------
+#-------------------------------------------
 # Tic-tac-toe terminal based game
 # @autor: kyan
-# @version: 1.0.0
-#----------------------------------------
+# @version: 1.0.1
+# features added : 
+#   - mark symbol colors
+#   - clear console before print game board
+#------------------------------------------
 
 import os
 from colorama import init, Fore
 init(autoreset=True)
 
 class Tictactoe:
-    
+
+    # Clear console command
+    __clear = 'cls' if os.name == 'nt' else 'clear'
+
     def __init__(self):
         """ Initialize the instance variables
 
@@ -28,20 +34,22 @@ class Tictactoe:
         7 | 8 | 9    7 | 8 | 9
 
         """
+        os.system(Tictactoe.__clear)
+        self.print_header()
         b = self.board
         for i, item in enumerate(b):
             if i == 2 or i == 5 or i == 8:  # If the right edge char, print with newline
                 if item == 'X':
-                    print(Fore.RED + item)
+                    print Fore.RED + item
                 elif item == 'O':
-                    print(Fore.GREEN + item)
+                    print Fore.GREEN + item
                 else:
                     print item
             else:
                 if item == 'X':
-                    print(Fore.RED + item), "|",
+                    print Fore.RED + item, "|",
                 elif item == 'O':
-                    print(Fore.GREEN + item), "|",
+                    print Fore.GREEN + item, "|",
                 else:
                     print item, "|",
 
@@ -50,18 +58,21 @@ class Tictactoe:
 
         """
         while True:
-            i = raw_input("It is " + name + "'s turn. Mark a squre with '" + self.players[name] + "' : ")
+            i = raw_input("It is " + name + "'s turn. Mark a squre with '" + self.players[name] + "' (input q to quit game) : ")
             try:
-                val = int(i)
+                if i == 'q':
+                    exit(0)
+                else:
+                    val = int(i)
             except ValueError:
-                print "That's not an int. Input a square number 1-9"
+                print Fore.YELLOW + "That's not an int. Input a square number 1-9"
                 continue
             else:
                 if val < 1 or val > 9:
-                    print "Pick a squre number 1-9"
+                    print Fore.YELLOW + "Pick a squre number 1-9"
                     continue
                 elif val not in self.board:
-                    print "The square " + i + " has been picked"
+                    print Fore.YELLOW + "The square " + i + " has been picked"
                     continue
                 else:
                     return val
@@ -104,13 +115,15 @@ class Tictactoe:
         
         return "go"
     
+    def print_header(self):
+        print "##########################"
+        print "##      Tic-tac-toe     ##"
+        print "##########################"
+
     def start_game(self, player):
         """ start game
 
         """
-        print "##########################"
-        print "##      Tic-tac-toe      #"
-        print "##########################"
         self.current_player = player
         while True:
             self.print_board()  # Print the game board
@@ -136,7 +149,5 @@ class Tictactoe:
                         break
 
 if __name__ == "__main__":
-    os.system('cls' if os.name == 'nt' else 'clear')  # Clear console before game
     tictactoe = Tictactoe()
     tictactoe.start_game('Foo')
-
