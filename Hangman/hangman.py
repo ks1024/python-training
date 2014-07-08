@@ -1,8 +1,11 @@
 #! /usr/bin/env python
 
 import random
+import os
 
 class HangmanGame:
+
+    __clear = 'cls' if os.name == 'nt' else 'clear'
 
     # hangman ascii graph list
     hangmans = [
@@ -64,7 +67,9 @@ class HangmanGame:
     step = None # step number for hangman ascii graph
 
     def __init__(self):
-        """Initialize class variables"""
+        """Initialize class variables
+        
+        """
         self.isGameOver = False
         self.step = 0
         # generate a random word
@@ -73,17 +78,24 @@ class HangmanGame:
         self.word_checked = ['_' for i in range(len(self.word))]
 
     def findAllIndexes(self, s, c):
-        """Find all indexes of a char in a string"""
+        """Find all indexes of a char in a string
+        
+        """
         for i, item in enumerate(s):
             if item == c:
                 yield i
 
     def printHangmanGraph(self):
-        """Print hangman ascci graph"""
+        """Print hangman ascii graph
+        
+        """
+        os.system(HangmanGame.__clear)  # Clear console before print ascii graph
         print self.hangmans[self.step].format(' '.join(self.word_checked), ', '.join(self.misses))
 
     def isAlphaChar(self, c):
-        """Check if an input is an alphabet"""
+        """Check if an input is an alphabet
+        
+        """
         if len(c) > 1 or not c.isalpha():
             print "Please input again, the valid char is a-z or A-Z"
             return False
@@ -94,12 +106,14 @@ class HangmanGame:
         while not self.isGameOver:
             # print hangman ascii graph
             self.printHangmanGraph()
+            print '(input q to quit game)'
             # ask to input a char
             s = raw_input('Guess: ').lower()
-            if not self.isAlphaChar(s):
+            if s == 'q':
+                exit(0)
+            elif not self.isAlphaChar(s):
                 continue
             elif s in self.word_checked or s in self.misses:
-                print "You've inputed this char, try another one"
                 continue
 
             # find indexes of a char in a word
