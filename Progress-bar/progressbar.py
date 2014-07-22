@@ -29,5 +29,5 @@ class ProgressBar:
 
 if __name__ == "__main__":
     # example program
-    progressBar = ProgressBar(100, 30)
-    progressBar.start(0.1)
+    progressBar = ProgressBar(100, 30).start(0.1)
+    #progressBar.start(0.1)
